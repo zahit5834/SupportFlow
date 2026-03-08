@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/ApiGateways/">
+    <Project Path="ApiGateways/SupportFlow.YarpGateway/SupportFlow.YarpGateway.csproj" />
+  </Folder>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Auth/">
+    <Project Path="Services/Auth/SupportFlow.Auth.Api/SupportFlow.Auth.Api.csproj" />
+    <Project Path="Services/Auth/SupportFlow.Auth.Business/SupportFlow.Auth.Business.csproj" />
+    <Project Path="Services/Auth/SupportFlow.Auth.DataAccess/SupportFlow.Auth.DataAccess.csproj" />
+    <Project Path="Services/Auth/SupportFlow.Auth.Entity/SupportFlow.Auth.Entity.csproj" />
+  </Folder>
+  <Folder Name="/Services/Customer/">
+    <Project Path="Services/Customer/SupportFlow.Customer.Api/SupportFlow.Customer.Api.csproj" />
+    <Project Path="Services/Customer/SupportFlow.Customer.Business/SupportFlow.Customer.Business.csproj" />
+    <Project Path="Services/Customer/SupportFlow.Customer.DataAccess/SupportFlow.Customer.DataAccess.csproj" Id="8d515fb4-b058-4f7d-b0b8-03ae25ec655c" />
+    <Project Path="Services/Customer/SupportFlow.Customer.Entity/SupportFlow.Customer.Entity.csproj" Id="d8b66fcd-ad5a-4a6a-a80f-3a9107d7bd9e" />
+  </Folder>
+  <Folder Name="/Services/Ticket/">
+    <Project Path="Services/Ticket/SupportFlow.Ticket.Api/SupportFlow.Ticket.Api.csproj" Id="3f907996-7154-4015-8706-f5cdc5e8636b" />
+    <Project Path="Services/Ticket/SupportFlow.Ticket.Business/SupportFlow.Ticket.Business.csproj" Id="62c24e02-b694-41ef-a98d-0f8f961a78a1" />
+    <Project Path="Services/Ticket/SupportFlow.Ticket.DataAccess/SupportFlow.Ticket.DataAccess.csproj" Id="cb90e105-e8b0-42ee-8b35-706facd11e3a" />
+    <Project Path="Services/Ticket/SupportFlow.Ticket.Entity/SupportFlow.Ticket.Entity.csproj" Id="9a2373a7-9f8e-4afa-b9e4-a4209ce0f95e" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared/SupportFlow.Messaging/SupportFlow.Messaging.csproj" />
+  </Folder>
+</Solution>
