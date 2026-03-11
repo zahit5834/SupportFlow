@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\SupportFlow.Messaging\SupportFlow.Messaging.csproj" />
     <ProjectReference Include="..\SupportFlow.Ticket.DataAccess\SupportFlow.Ticket.DataAccess.csproj" />
   </ItemGroup>
 

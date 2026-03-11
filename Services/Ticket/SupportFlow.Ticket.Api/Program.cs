@@ -5,6 +5,7 @@ using SupportFlow.Ticket.Business.Interfaces;
 using SupportFlow.Ticket.Business.Services;
 using SupportFlow.Ticket.DataAccess.Contexts;
 using System.Text;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // 3. Servis Kayıtları
 builder.Services.AddScoped<ITicketService, TicketService>();
+
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        // Lokal RabbitMQ ayarları (Docker kullanıyorsan localhost:5672)
+        cfg.Host("localhost", "/", h => {
+            h.Username("guest");
+            h.Password("guest");
+        });
+    });
+});
+
 
 
 builder.Services.AddControllers();

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using SupportFlow.Messaging.Events;
 using SupportFlow.Ticket.Business.Dtos;
 using SupportFlow.Ticket.Business.Interfaces;
 using SupportFlow.Ticket.DataAccess.Contexts;
@@ -15,10 +17,11 @@ namespace SupportFlow.Ticket.Business.Services
     public class TicketService : ITicketService
     {
         private readonly TicketDbContext _context;
-
-        public TicketService(TicketDbContext context)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public TicketService(TicketDbContext context, IPublishEndpoint publishEndpoint)
         {
             _context = context;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<Guid> CreateTicketAsync(CreateTicketDto dto, Guid userId, Guid companyId)
@@ -36,7 +39,15 @@ namespace SupportFlow.Ticket.Business.Services
             await _context.Tickets.AddAsync(ticket);
             await _context.SaveChangesAsync();
 
-            // TODO: RabbitMQ ile ticket oluşturma event'i eklenecek.
+            await _publishEndpoint.Publish(new TicketCreatedEvent
+            {
+                Id = ticket.Id,
+                Title = ticket.Title,
+                Description = ticket.Description,
+                CompanyId = ticket.CompanyId,
+                CreatedByUserId = ticket.CreatedByUserId,
+                CreatedAt = ticket.CreatedAt
+            });
 
             return ticket.Id;
 
