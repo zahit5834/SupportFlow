@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SupportFlow.Ticket.DataAccess\SupportFlow.Ticket.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
