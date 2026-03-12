@@ -11,5 +11,7 @@ namespace SupportFlow.Customer.Business.Interfaces
     {
         Task<List<CompanyListDto>> GetAllAsync();
         Task<Guid> CreateAsync(CreateCompanyDto dto);
+
+        Task<CompanyResponseDto> GetCompanyByIdAsync(Guid id);
     }
 }

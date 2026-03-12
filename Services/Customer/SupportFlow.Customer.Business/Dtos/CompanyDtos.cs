@@ -9,5 +9,6 @@ namespace SupportFlow.Customer.Business.Dtos
 
     public record CreateCompanyDto(string Name, string? TaxNumber, string? Email, string? Address);
     public record CompanyListDto(Guid Id, string Name, string? Email, bool IsActive);
+    public record CompanyResponseDto(Guid Id, string Name, string? Email, bool IsActive);
 
 }

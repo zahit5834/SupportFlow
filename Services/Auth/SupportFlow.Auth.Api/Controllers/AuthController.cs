@@ -44,5 +44,21 @@ namespace SupportFlow.Auth.Api.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("users/{id}")]
+        public async Task<IActionResult> GetUserById(Guid Id)
+        {
+            try
+            {
+                var result = await _authService.GetUserByIdAsync(Id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
     }
 }

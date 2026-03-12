@@ -5,7 +5,7 @@ using SupportFlow.Customer.Business.Interfaces;
 
 namespace SupportFlow.Customer.Api.Controllers
 {
-    [Route("api/customer/[controller]")]
+    [Route("api/customer/companies")]
     [ApiController]
     public class CompaniesController : ControllerBase
     {
@@ -34,6 +34,21 @@ namespace SupportFlow.Customer.Api.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCompanyById(Guid id)
+        {
+            try
+            {
+                var result = await _companyService.GetCompanyByIdAsync(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(new { message = ex.Message });
             }
         }
     }

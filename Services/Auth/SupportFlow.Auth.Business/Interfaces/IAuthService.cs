@@ -12,5 +12,7 @@ namespace SupportFlow.Auth.Business.Interfaces
         Task<TokenResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
         Task<TokenResponseDto> RefreshTokenAsync(string accessToken, string refreshToken);
+
+        Task<UserResponseDto> GetUserByIdAsync(Guid id);
     }
 }

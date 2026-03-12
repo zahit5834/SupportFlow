@@ -21,6 +21,17 @@ namespace SupportFlow.Auth.Business.Services
             _tokenService = tokenService;
         }
 
+        public async Task<UserResponseDto> GetUserByIdAsync(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user==null)
+            {
+                throw new Exception("Kullanıcı Bulunamadı!");
+            }
+
+            return new UserResponseDto(user.Id, user.FullName, user.Email!);
+        }
+
         public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);

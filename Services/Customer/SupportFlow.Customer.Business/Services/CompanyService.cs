@@ -22,7 +22,7 @@ namespace SupportFlow.Customer.Business.Services
 
         public async Task<Guid> CreateAsync(CreateCompanyDto dto)
         {
-            var company = new Company { Name = dto.Name, TaxNumber = dto.TaxNumber, Email = dto.Email, Address = dto.Address};
+            var company = new Company { Name = dto.Name, TaxNumber = dto.TaxNumber, Email = dto.Email, Address = dto.Address };
             await _context.Companies.AddAsync(company);
             await _context.SaveChangesAsync();
             return company.Id;
@@ -30,7 +30,24 @@ namespace SupportFlow.Customer.Business.Services
 
         public async Task<List<CompanyListDto>> GetAllAsync()
         {
-            return await _context.Companies.Select(x=> new CompanyListDto ( x.Id,x.Name,x.Email,x.IsActive)).ToListAsync();
+            return await _context.Companies.Select(x => new CompanyListDto(x.Id, x.Name, x.Email, x.IsActive)).ToListAsync();
+        }
+
+        public async Task<CompanyResponseDto> GetCompanyByIdAsync(Guid id)
+        {
+            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (company == null)
+            {
+                throw new Exception("Firma Bulunamadı");
+            }
+
+            return new CompanyResponseDto(
+                company.Id,
+                company.Name,
+                company.Email,
+                company.IsActive
+            );
         }
     }
 }

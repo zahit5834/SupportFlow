@@ -15,6 +15,12 @@
     <Project Path="Services/Customer/SupportFlow.Customer.DataAccess/SupportFlow.Customer.DataAccess.csproj" Id="8d515fb4-b058-4f7d-b0b8-03ae25ec655c" />
     <Project Path="Services/Customer/SupportFlow.Customer.Entity/SupportFlow.Customer.Entity.csproj" Id="d8b66fcd-ad5a-4a6a-a80f-3a9107d7bd9e" />
   </Folder>
+  <Folder Name="/Services/Notification/">
+    <Project Path="Services/Notification/SupportFlow.Notification.Api/SupportFlow.Notification.Api.csproj" Id="5593dd02-6cff-41e4-8a94-066a7fea2896" />
+    <Project Path="Services/Notification/SupportFlow.Notification.Business/SupportFlow.Notification.Business.csproj" Id="777c7680-f659-4a13-bf01-470d919d2c76" />
+    <Project Path="Services/Notification/SupportFlow.Notification.DataAccess/SupportFlow.Notification.DataAccess.csproj" Id="bc191cf7-ce75-4c0d-a09c-1683551354aa" />
+    <Project Path="Services/Notification/SupportFlow.Notification.Entity/SupportFlow.Notification.Entity.csproj" Id="26f36294-abf7-4bf2-8696-2bc27cb7d8a5" />
+  </Folder>
   <Folder Name="/Services/Ticket/">
     <Project Path="Services/Ticket/SupportFlow.Ticket.Api/SupportFlow.Ticket.Api.csproj" Id="3f907996-7154-4015-8706-f5cdc5e8636b" />
     <Project Path="Services/Ticket/SupportFlow.Ticket.Business/SupportFlow.Ticket.Business.csproj" Id="62c24e02-b694-41ef-a98d-0f8f961a78a1" />
