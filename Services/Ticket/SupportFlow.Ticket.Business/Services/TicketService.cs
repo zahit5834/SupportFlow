@@ -60,5 +60,6 @@ namespace SupportFlow.Ticket.Business.Services
             .Select(x => new TicketListDto(x.Id, x.Title, x.Status, x.Priority, x.CreatedAt))
             .ToListAsync();
         }
+
     }
 }

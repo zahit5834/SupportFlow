@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupportFlow.Ticket.Entity.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,10 @@ namespace SupportFlow.Ticket.Entity.Models
         public string Description { get; set; } = string.Empty;
 
         // Durum: 0:Açık, 1:İşlemde, 2:Çözüldü, 3:Kapalı
-        public int Status { get; set; } = 0;
+        public TicketStatus Status { get; set; } = TicketStatus.Open;
 
         // Öncelik: 0:Düşük, 1:Orta, 2:Yüksek, 3:Acil
-        public int Priority { get; set; } = 1;
+        public TicketPriority Priority { get; set; } = TicketPriority.Medium;
 
         // Diğer mikroservislerle olan bağlar (Sadece ID bazlı)
         public Guid CompanyId { get; set; }
