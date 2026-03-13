@@ -37,6 +37,36 @@ namespace SupportFlow.Ticket.Api.Controllers
 
             return Ok(result);
         }
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateTicketStatusDto dto)
+        {
+            try
+            {
+                await _ticketService.UpdateStatusAsync(id, dto);
+                return Ok(new { message = "Ticket durumu ve atama bilgisi güncellendi." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("{id}/comments")]
+        public async Task<IActionResult> AddComment(Guid id, [FromBody] AddCommentDto dto)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var fullName = User.FindFirst("FullName")?.Value ?? "Bilinmeyen Kullanıcı"; // Claims'ten ismi çekiyoruz
+
+            await _ticketService.AddCommentAsync(id, userId, fullName, dto);
+            return Ok(new { message = "Yorum başarıyla eklendi." });
+        }
+
+        [HttpGet("{id}/comments")]
+        public async Task<IActionResult> GetComments(Guid id)
+        {
+            var result = await _ticketService.GetCommentsAsync(id);
+            return Ok(result);
+        }
 
     }
 }

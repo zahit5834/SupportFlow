@@ -13,5 +13,6 @@ namespace SupportFlow.Ticket.DataAccess.Contexts
         public TicketDbContext(DbContextOptions<TicketDbContext> options) : base(options) { }
 
         public DbSet<SupportTicket> Tickets { get; set; }
+        public DbSet<TicketComment> TicketComments { get; set; } // Yeni Tablo
     }
 }

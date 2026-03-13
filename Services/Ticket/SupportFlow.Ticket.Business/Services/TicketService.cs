@@ -8,6 +8,7 @@ using SupportFlow.Ticket.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static SupportFlow.Ticket.Business.Dtos.TicketDtos;
@@ -22,6 +23,33 @@ namespace SupportFlow.Ticket.Business.Services
         {
             _context = context;
             _publishEndpoint = publishEndpoint;
+        }
+
+        public async Task AddCommentAsync(Guid ticketId, Guid userId, string fullName, AddCommentDto dto)
+        {
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
+            if (ticket == null) throw new Exception("Ticket bulunamadı");
+
+            var comment = new TicketComment
+            {
+                TicketId = ticketId,
+                UserId = userId,
+                Message = dto.Message
+            };
+
+            await _context.TicketComments.AddAsync(comment);
+            await _context.SaveChangesAsync();
+
+            await _publishEndpoint.Publish(new TicketCommentAddedEvent
+            {
+                TicketId = ticket.Id,
+                TicketTitle = ticket.Title,
+                CommenterFullName = fullName,
+                Message = dto.Message,
+                TicketOwnerUserId = ticket.CreatedByUserId
+            });
+
+
         }
 
         public async Task<Guid> CreateTicketAsync(CreateTicketDto dto, Guid userId, Guid companyId)
@@ -53,6 +81,15 @@ namespace SupportFlow.Ticket.Business.Services
 
         }
 
+        public async Task<List<TicketCommentListDto>> GetCommentsAsync(Guid ticketId)
+        {
+            return await _context.TicketComments
+                .Where(x => x.Id == ticketId)
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new TicketCommentListDto(x.Id, x.UserId, x.Message, x.CreatedAt))
+                .ToListAsync();
+        }
+
         public async Task<List<TicketListDto>> GetCompanyTicketsAsync(Guid companyId)
         {
             return await _context.Tickets
@@ -61,5 +98,29 @@ namespace SupportFlow.Ticket.Business.Services
             .ToListAsync();
         }
 
+        public async Task UpdateStatusAsync(Guid ticketId, UpdateTicketStatusDto dto)
+        {
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
+            if (ticket == null) throw new Exception("Ticket bulunamadı");
+
+            ticket.Status = dto.Status;
+            ticket.UpdatedAt = DateTime.UtcNow;
+
+            // Eğer bir personel atandıysa güncelle
+            if (dto.AssignedStaffId.HasValue)
+                ticket.AssignedStaffId = dto.AssignedStaffId.Value;
+
+            await _context.SaveChangesAsync();
+
+            // Mesajı fırlat: Artık Notification servisi Title için sana dönmeyecek!
+            await _publishEndpoint.Publish(new TicketStatusUpdatedEvent
+            {
+                TicketId = ticket.Id,
+                Title = ticket.Title,
+                NewStatus = (int)ticket.Status,
+                CreatedByUserId = ticket.CreatedByUserId
+            });
+
+        }
     }
 }

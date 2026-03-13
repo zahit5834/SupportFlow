@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<TicketCreatedConsumer>();
+    x.AddConsumer<TicketStatusUpdatedConsumer>();
+    x.AddConsumer<TicketCommentAddedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {

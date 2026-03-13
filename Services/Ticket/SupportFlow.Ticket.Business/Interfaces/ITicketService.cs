@@ -11,5 +11,10 @@ namespace SupportFlow.Ticket.Business.Interfaces
     {
         Task<Guid> CreateTicketAsync(CreateTicketDto dto, Guid userId, Guid companyId);
         Task<List<TicketListDto>> GetCompanyTicketsAsync(Guid companyId);
+
+        Task UpdateStatusAsync(Guid ticketId, UpdateTicketStatusDto dto);
+
+        Task AddCommentAsync(Guid ticketId, Guid userId, string fullName, AddCommentDto dto);
+        Task<List<TicketCommentListDto>> GetCommentsAsync(Guid ticketId);
     }
 }
