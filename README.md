@@ -251,4 +251,37 @@ Aşağıda, API'de bulunan temel endpoint'lerin listesi bulunmaktadır. Her endp
 
 ### **3. Destek Talepleri (Ticket Service)**
 - `/api/ticket/Tickets` - Yeni destek talebi oluştur
+- `/api/ticket/Tickets` - Şirketimin taleplerini listele
+- `/api/ticket/Tickets/{id}/status` - Bilet durumu güncelle
+- `/api/ticket/Tickets/{id}/comments` - Yorum ekle
+- `/api/ticket/Tickets/pool` - Boştaki bilet havuzu
+- `/api/ticket/Tickets/{id}/assign` - Bileti üzerine al
+
+## Hata Durum Kodları
+- **200 OK:** İstek başarıyla tamamlandı.
+- **400 Bad Request:** Geçersiz girdi veya iş mantığı hatası (Hata mesajı gövdede yer alır).
+- **401 Unauthorized:** Geçersiz veya eksik JWT token.
+- **404 Not Found:** İstenen kaynak (kullanıcı, şirket, bilet) bulunamadı.
+- **500 Internal Server Error:** Beklenmedik sunucu hatası.
+
+```
+# SupportFlow API Documentation
+
+## Genel Açıklama
+SupportFlow, müşteri desteği süreçlerini yönetmek için bir API sunar. Bu API, kullanıcıların destek talepleri oluşturması, şirketlerin taleplerini yönetmesi ve destek personellerinin biletleri işlemek için kullanılabilir.
+
+## API Endpoint'leri
+Aşağıda, API'de bulunan temel endpoint'lerin listesi bulunmaktadır. Her endpoint'in detaylı açıklaması için ilgili bölümlere bakınız.
+
+### **1. Kullanıcı Yönetimi (Auth Service)**
+- `/api/auth/register` - Kullanıcı kaydı
+- `/api/auth/login` - Kullanıcı girişi
+- `/api/auth/users/{id}` - Kullanıcı detayları
+
+### **2. Şirket Yönetimi (Customer Service)**
+- `/api/customer/companies` - Tüm şirketleri listele
+- `/api/customer/companies` - Yeni şirket oluştur
+
+### **3. Destek Talepleri (Ticket Service)**
+- `/api/ticket/Tickets` - Yeni destek talebi oluştur
 # SupportFlow
