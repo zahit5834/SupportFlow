@@ -11,7 +11,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<TicketCreatedConsumer>();
     x.AddConsumer<TicketStatusUpdatedConsumer>();
     x.AddConsumer<TicketCommentAddedConsumer>();
-    x.AddConsumer<TicketAssignedConsumer>
+    x.AddConsumer<TicketAssignedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
