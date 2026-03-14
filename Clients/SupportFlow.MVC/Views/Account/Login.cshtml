@@ -1,0 +1,23 @@
+﻿@model SupportFlow.Auth.Business.Dtos.LoginDto
+@{
+    Layout = null;
+}
+
+
+<div class="row justify-content-center">
+    <div class="col-md-4 card p-4 shadow mt-5">
+        <h3 class="text-center">SupportFlow Giriş</h3>
+        <hr />
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label>E-posta</label>
+                <input asp-for="Email" class="form-control" type="email" required />
+            </div>
+            <div class="mb-3">
+                <label>Şifre</label>
+                <input asp-for="Password" class="form-control" type="password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Giriş Yap</button>
+        </form>
+    </div>
+</div>

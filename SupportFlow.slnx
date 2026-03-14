@@ -3,7 +3,7 @@
     <Project Path="ApiGateways/SupportFlow.YarpGateway/SupportFlow.YarpGateway.csproj" />
   </Folder>
   <Folder Name="/Clients/">
-    <Project Path="Clients/SupportFlow.Web/SupportFlow.Web.csproj" Id="40136e04-9f2d-4a11-82b0-ec892d8b2006" />
+    <Project Path="Clients/SupportFlow.MVC/SupportFlow.MVC.csproj" Id="dfd4b4ed-bc6b-47b1-b39e-9af65bdbe534" />
   </Folder>
   <Folder Name="/Services/" />
   <Folder Name="/Services/Auth/">
