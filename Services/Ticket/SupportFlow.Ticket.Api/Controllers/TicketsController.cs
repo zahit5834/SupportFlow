@@ -68,5 +68,38 @@ namespace SupportFlow.Ticket.Api.Controllers
             return Ok(result);
         }
 
+        public async Task<IActionResult> GetMyTasks()
+        {
+            var staffId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = await _ticketService.GetAssignedTicketsAsync(staffId);
+            return Ok(result);
+        }
+
+        [HttpGet("pool")]
+        public async Task<IActionResult> GetUnassignedPool()
+        {
+            var result = await _ticketService.GetUnassignedTicketsAsync();
+            return Ok(result);
+        }
+
+        [HttpPatch("{id}/assign")]
+        public async Task<IActionResult> AssignToMe(Guid id)
+        {
+            // Token'dan personelin bilgilerini alıyoruz
+            var staffId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var staffName = User.FindFirst("FullName")?.Value ?? "Destek Personeli";
+
+            try
+            {
+                await _ticketService.AssignTicketAsync(id, staffId, staffName);
+                return Ok(new { message = "Bilet başarıyla üzerinize atandı." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
     }
 }

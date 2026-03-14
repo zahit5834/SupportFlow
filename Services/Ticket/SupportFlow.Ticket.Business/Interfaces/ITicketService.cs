@@ -16,5 +16,13 @@ namespace SupportFlow.Ticket.Business.Interfaces
 
         Task AddCommentAsync(Guid ticketId, Guid userId, string fullName, AddCommentDto dto);
         Task<List<TicketCommentListDto>> GetCommentsAsync(Guid ticketId);
+
+
+        Task AssignTicketAsync(Guid ticketId, Guid staffId, string staffFullName);
+
+
+        Task<List<TicketListDto>> GetAssignedTicketsAsync(Guid staffId);
+        Task<List<TicketListDto>> GetUnassignedTicketsAsync();
+
     }
 }

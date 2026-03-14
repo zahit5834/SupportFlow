@@ -4,6 +4,7 @@ using SupportFlow.Messaging.Events;
 using SupportFlow.Ticket.Business.Dtos;
 using SupportFlow.Ticket.Business.Interfaces;
 using SupportFlow.Ticket.DataAccess.Contexts;
+using SupportFlow.Ticket.Entity.Enums;
 using SupportFlow.Ticket.Entity.Models;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,28 @@ namespace SupportFlow.Ticket.Business.Services
 
         }
 
+        public async Task AssignTicketAsync(Guid ticketId, Guid staffId, string staffFullName)
+        {
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
+            if (ticket == null) throw new Exception("Ticket bulunamadı");
+
+            ticket.AssignedStaffId = staffId;
+            ticket.Status = TicketStatus.InProgress;
+            ticket.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            await _publishEndpoint.Publish(new TicketAssignedEvent
+            {
+                TicketId = ticket.Id,
+                TicketTitle = ticket.Title,
+                AssignedStaffId = staffId,
+                StaffFullName = staffFullName,
+                TicketOwnerUserId = ticket.CreatedByUserId
+            });
+
+        }
+
         public async Task<Guid> CreateTicketAsync(CreateTicketDto dto, Guid userId, Guid companyId)
         {
             var ticket = new SupportTicket
@@ -81,6 +104,15 @@ namespace SupportFlow.Ticket.Business.Services
 
         }
 
+        public async Task<List<TicketListDto>> GetAssignedTicketsAsync(Guid staffId)
+        {
+            return await _context.Tickets
+                .Where(x => x.AssignedStaffId == staffId)
+                .OrderByDescending(x => x.Priority)
+                .Select(x => new TicketListDto(x.Id, x.Title, x.Status, x.Priority, x.CreatedAt))
+                .ToListAsync();
+        }
+
         public async Task<List<TicketCommentListDto>> GetCommentsAsync(Guid ticketId)
         {
             return await _context.TicketComments
@@ -93,9 +125,18 @@ namespace SupportFlow.Ticket.Business.Services
         public async Task<List<TicketListDto>> GetCompanyTicketsAsync(Guid companyId)
         {
             return await _context.Tickets
-            .Where(x => x.CompanyId == companyId)
-            .Select(x => new TicketListDto(x.Id, x.Title, x.Status, x.Priority, x.CreatedAt))
-            .ToListAsync();
+                .Where(x => x.CompanyId == companyId)
+                .Select(x => new TicketListDto(x.Id, x.Title, x.Status, x.Priority, x.CreatedAt))
+                .ToListAsync();
+        }
+
+        public async Task<List<TicketListDto>> GetUnassignedTicketsAsync()
+        {
+            return await _context.Tickets
+                .Where(x => x.AssignedStaffId == null && x.Status == TicketStatus.Open)
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new TicketListDto(x.Id, x.Title, x.Status, x.Priority, x.CreatedAt))
+                .ToListAsync();
         }
 
         public async Task UpdateStatusAsync(Guid ticketId, UpdateTicketStatusDto dto)
